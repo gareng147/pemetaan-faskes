@@ -12,9 +12,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Aktifkan extension PostGIS
-        DB::statement('CREATE EXTENSION IF NOT EXISTS postgis;');
-
         // Tabel utama faskes
         Schema::create('faskes', function (Blueprint $table) {
             $table->id();
@@ -32,12 +29,9 @@ return new class extends Migration
             $table->string('desa')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
-            $table->geometry('lokasi', subtype: 'point', srid: 4326)->nullable();
             $table->string('nomor_telepon')->nullable();
             $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
-
-            $table->spatialIndex('lokasi');
         });
 
         // Tabel child: puskesmas_details
